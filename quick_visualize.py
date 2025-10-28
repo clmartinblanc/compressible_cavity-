@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 """
-Quick CFD Visualization - Simple script for immediate results
+Simple script for quick CFD results visualization
 
 This script creates a quick visualization of the latest CFD results.
-Run this after your CFD simulation to see immediate results.
 
-Requirements: matplotlib, numpy, pandas
 """
 
 import matplotlib.pyplot as plt
@@ -15,12 +13,12 @@ import glob
 import os
 
 def quick_plot():
-    """Create a quick 4-panel visualization of the latest results"""
+    """Create quick 4 panel visualization of the latest results"""
     
     # Find the latest data file
     files = glob.glob("flow_field_*.csv")
     if not files:
-        print("No CFD data files found! Run the simulation first.")
+        print("No CFD data files found. Run the simulation first.")
         return
     
     latest_file = max(files, key=lambda f: int(f.split('_')[-1].split('.')[0]))
@@ -49,7 +47,7 @@ def quick_plot():
     fig, axes = plt.subplots(2, 2, figsize=(14, 10))
     fig.suptitle('CFD Results - Latest Timestep', fontsize=16, fontweight='bold')
     
-    # Velocity magnitude
+    # Velocity 
     cs1 = axes[0,0].contourf(X, Y, vel_mag, levels=20, cmap='plasma')
     axes[0,0].set_title('Velocity Magnitude (m/s)')
     axes[0,0].set_xlabel('x (m)')
@@ -73,7 +71,7 @@ def quick_plot():
     axes[1,0].set_aspect('equal')
     plt.colorbar(cs3, ax=axes[1,0])
     
-    # Vorticity with streamlines (handle NaN/inf values)
+    # Vorticity with streamlines
     vorticity_clean = np.nan_to_num(vorticity, nan=0.0, posinf=0.0, neginf=0.0)
     vort_max = np.abs(vorticity_clean).max()
     
@@ -83,7 +81,7 @@ def quick_plot():
     else:
         cs4 = axes[1,1].contourf(X, Y, vorticity_clean, levels=20, cmap='RdBu_r')
     
-    # Add streamlines
+    # Streamlines
     axes[1,1].streamplot(X, Y, u, v, density=1.5, color='black', linewidth=0.8)
     
     axes[1,1].set_title('Vorticity (1/s) + Streamlines')
@@ -92,24 +90,24 @@ def quick_plot():
     axes[1,1].set_aspect('equal')
     plt.colorbar(cs4, ax=axes[1,1])
     
-    # Add boundary walls to all plots
+    # Add boundary walls
     for ax in axes.flat:
-        # Domain boundaries
+        # Fixed bottom, left, right walls
         ax.plot([0, 1, 1, 0, 0], [0, 0, 1, 1, 0], 'k-', linewidth=2)
         # Moving top wall
         ax.plot([0, 1], [1, 1], 'r-', linewidth=3, label='Moving Wall')
     
     plt.tight_layout()
     
-    # Save the plot
+    # Save 
     output_file = 'quick_cfd_visualization.png'
     plt.savefig(output_file, dpi=300, bbox_inches='tight')
     plt.show()
     
     print(f"Quick visualization saved as: {output_file}")
     
-    # Print some statistics
-    print(f"\n=== Flow Statistics ===")
+    # Print some values
+    print(f"\n=== Flow values ===")
     print(f"Max velocity: {vel_mag.max():.4f} m/s")
     print(f"Min pressure: {pressure.min():.2f} Pa")
     print(f"Max pressure: {pressure.max():.2f} Pa")

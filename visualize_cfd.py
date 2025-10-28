@@ -2,13 +2,9 @@
 """
 CFD Visualization Script for 2D Compressible Navier-Stokes Solver
 
-This script creates comprehensive visualizations of the CFD simulation results
-including contour plots, vector fields, streamlines, and animations.
+This script creates comprehensive visualizations of the CFD simulation
+like contour plots, vector fields, streamlines, and animations.
 
-Requirements: matplotlib, numpy, pandas
-Install with: pip install matplotlib numpy pandas
-
-Author: CFD Project Team
 Date: October 28, 2025
 """
 
@@ -22,7 +18,7 @@ from matplotlib.cm import ScalarMappable
 import matplotlib.patches as patches
 from matplotlib.animation import FuncAnimation
 
-# Configuration
+# Common configuration
 plt.style.use('seaborn-v0_8')
 plt.rcParams['figure.dpi'] = 150
 plt.rcParams['savefig.dpi'] = 300
@@ -30,7 +26,7 @@ plt.rcParams['font.size'] = 10
 
 class CFDVisualizer:
     def __init__(self, data_pattern="flow_field_*.csv"):
-        """Initialize the CFD visualizer with data files"""
+        """Initialize the visualizer with data files"""
         self.data_files = sorted(glob.glob(data_pattern))
         self.timesteps = [int(f.split('_')[-1].split('.')[0]) for f in self.data_files]
         print(f"Found {len(self.data_files)} data files")
@@ -41,7 +37,7 @@ class CFDVisualizer:
             self.setup_grid()
     
     def setup_grid(self):
-        """Setup grid parameters from data"""
+        """Setup grid from data"""
         self.x_unique = sorted(self.df_sample['x'].unique())
         self.y_unique = sorted(self.df_sample['y'].unique())
         self.nx = len(self.x_unique)
@@ -50,7 +46,7 @@ class CFDVisualizer:
         print(f"Grid: {self.nx} x {self.ny} points")
     
     def load_data(self, filename):
-        """Load and reshape CFD data"""
+        """Load and reshape data"""
         df = pd.read_csv(filename)
         
         # Reshape data to 2D grids
@@ -264,15 +260,15 @@ class CFDVisualizer:
                                edgecolor='black', facecolor='none')
         ax.add_patch(rect)
         
-        # Moving top wall (different color)
+        # Moving top wall (red)
         ax.plot([0, 1], [1, 1], 'r-', linewidth=4, label='Moving Wall')
         
-        # Stationary walls
+        # Stationary walls (black)
         ax.plot([0, 1], [0, 0], 'k-', linewidth=3, label='Stationary Wall')
         ax.plot([0, 0], [0, 1], 'k-', linewidth=3)
         ax.plot([1, 1], [0, 1], 'k-', linewidth=3)
         
-        # Legend (only for first boundary addition)
+        # Legend
         current_legend = ax.get_legend()
         if current_legend is None:
             ax.legend(loc='upper right', bbox_to_anchor=(0.98, 0.98))
@@ -296,7 +292,7 @@ class CFDVisualizer:
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
         
-        print("Generating visualization plots...")
+        print("Generating visualization plots")
         
         for i, (filename, timestep) in enumerate(zip(self.data_files, self.timesteps)):
             print(f"Processing timestep {timestep} ({i+1}/{len(self.data_files)})")
@@ -354,7 +350,7 @@ class CFDVisualizer:
                        bbox_inches='tight', dpi=300)
             plt.close()
         
-        print(f"All plots saved to '{output_dir}/' directory")
+        print(f"Plots saved to '{output_dir}/' directory")
     
     def create_time_series_plots(self, output_dir='plots'):
         """Create time series plots of key quantities"""
@@ -368,7 +364,7 @@ class CFDVisualizer:
         max_vorticity = []
         kinetic_energy = []
         
-        print("Extracting time series data...")
+        print("Extracting time series data")
         
         for filename, timestep in zip(self.data_files, self.timesteps):
             data = self.load_data(filename)
@@ -418,15 +414,14 @@ class CFDVisualizer:
         print("Time series analysis saved")
 
 def main():
-    """Main function to run CFD visualization"""
-    print("=== CFD Visualization Tool ===")
-    print("Starting visualization generation...")
+    """Main function to run visualization"""
+    print("Starting visualization generation")
     
     # Initialize visualizer
     viz = CFDVisualizer()
     
     if not viz.data_files:
-        print("No CFD data files found. Please run the CFD simulation first.")
+        print("No CFD data files found. Please run the CFD simulation first")
         print("Expected files: flow_field_*.csv")
         return
     
@@ -434,18 +429,18 @@ def main():
     viz.generate_all_plots()
     viz.create_time_series_plots()
     
-    print("\n=== Visualization Complete! ===")
+    print("Visualization Complete")
     print("Generated plots:")
-    print("  • Velocity magnitude contours")
-    print("  • Pressure contours") 
-    print("  • Temperature contours")
-    print("  • Density contours")
-    print("  • Velocity vector fields")
-    print("  • Streamline plots")
-    print("  • Vorticity contours")
-    print("  • Comprehensive 4-panel plots")
-    print("  • Time series analysis")
-    print("\nAll files saved in 'plots/' directory")
+    print("Velocity magnitude contours")
+    print("Pressure contours") 
+    print("Temperature contours")
+    print("Density contours")
+    print("Velocity vector fields")
+    print("Streamline plots")
+    print("Vorticity contours")
+    print("Comprehensive 4-panel plots")
+    print("Time series analysis")
+    print("All files saved in 'plots/' directory")
 
 if __name__ == "__main__":
     main()

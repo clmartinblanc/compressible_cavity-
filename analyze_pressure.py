@@ -47,19 +47,19 @@ print(f"Left wall pressure range: {left_wall['p'].min():.2f} - {left_wall['p'].m
 right_wall = df[df['x'] == 0.99]
 print(f"Right wall pressure range: {right_wall['p'].min():.2f} - {right_wall['p'].max():.2f} Pa")
 
-# Check for unrealistic pressure variations
-print("\n=== UNREALISTIC VARIATIONS ===")
+# Check for pressure variations
+print("\n=== PRESSURE VARIATIONS ===")
 pressure_range = df['p'].max() - df['p'].min()
 reference_pressure = df['p'].mean()
 relative_variation = pressure_range / reference_pressure * 100
 
 print(f"Relative pressure variation: {relative_variation:.4f}%")
 if relative_variation > 1.0:
-    print("WARNING: Large pressure variations detected!")
+    print("WARNING: Large pressure variations detected (may indicate instability)")
 elif relative_variation < 0.001:
-    print("WARNING: Pressure field too uniform (may indicate numerical issues)")
+    print("WARNING: Pressure field too uniform (weird)")
 else:
-    print("Pressure variation appears reasonable")
+    print("Pressure variation reasonable")
 
 # Check pressure-velocity coupling issues
 print("\n=== PRESSURE-VELOCITY COUPLING ===")
