@@ -1,0 +1,73 @@
+# Compiled binaries
+code
+*.exe
+*.out
+*.app
+
+# Object files
+*.o
+*.obj
+
+# Libraries
+*.lib
+*.a
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.dylib
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+
+# IDE files
+.vscode/settings.json
+.vscode/launch.json
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Large data files (exclude most, keep examples)
+flow_field_[4-9]*.csv
+flow_field_1[0-9]*.csv
+flow_field_[4-9]*.vtk
+flow_field_1[0-9]*.vtk
+
+# Keep smaller example files:
+# flow_field_0.csv (initial condition)
+# flow_field_200.csv (early timestep example)
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Generated plots - keep key visualizations, exclude bulk plots
+plots/comprehensive_t*.png
+plots/velocity_t*.png
+plots/density_t*.png
+plots/temperature_t*.png
+plots/streamlines_t*.png
+plots/vorticity_t*.png
+
+# Keep important summary plots:
+# pressure_improvement_summary.png
+# quick_cfd_visualization.png
+# plots/pressure_t*.png (pressure evolution is key)
+
+# Backup files
+*.bak
+*.backup
